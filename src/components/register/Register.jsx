@@ -19,12 +19,11 @@ const RegisterForm = ({ closeModal }) => {
       return;
     }
 
+    setIsChecked(true);
+
     try {
       const success = await register({ username, email, password });
-
       if (success) {
-        setIsChecked(true);
-        setTimeout(() => {
           setUserName("");
           setEmail("");
           setPassword("");
@@ -32,7 +31,6 @@ const RegisterForm = ({ closeModal }) => {
           setIsChecked(false);
           toast.success("Registration successful!")
           closeModal();
-        }, 8000);
       }
     } catch (error) {
       console.error("Registration failed:", error);

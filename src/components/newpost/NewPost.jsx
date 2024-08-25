@@ -5,12 +5,13 @@ import DOMPurify from "dompurify";
 import styles from "./NewPost.module.css";
 import { createPost } from "../../services/api";
 
-const NewPostForm = () => {
+const NewPostForm = ({ closeModal }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
 
   const [errors, setErrors] = useState({});
+
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -59,6 +60,7 @@ const NewPostForm = () => {
       setContent("");
       setImage(null);
       setErrors({});
+      closeModal();
     } catch (err) {
       toast.error(err.message || "Failed to create post.");
     }

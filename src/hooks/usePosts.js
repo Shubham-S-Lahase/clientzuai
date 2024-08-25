@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const usePosts = () => {
   const [posts, setPosts] = useState([]);
@@ -21,9 +21,13 @@ export const usePosts = () => {
     }
   };
 
+  const refreshPosts = useCallback(() => {
+    fetchPosts();
+  }, []);
+
   useEffect(() => {
     fetchPosts();
   }, []);
 
-  return { posts, loading, error };
+  return { posts, loading, error, refreshPosts };
 };

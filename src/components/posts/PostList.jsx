@@ -3,12 +3,17 @@ import { usePosts } from "../../hooks/usePosts";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import moment from "moment";
+import { useEffect } from "react";
 
 const PostList = () => {
-  const { posts } = usePosts();
+  const { posts, refreshPosts } = usePosts();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    refreshPosts();
+  }, [posts, refreshPosts]);
   // console.log(posts);
 
   const handlePostClick = (postId) => {

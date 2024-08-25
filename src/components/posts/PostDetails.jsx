@@ -78,7 +78,7 @@ const PostDetail = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loadercont"><div className="loader"></div></div>;
   if (error) return <div>Error: {error}</div>;
   if (!post) return <div>Post not found</div>;
 

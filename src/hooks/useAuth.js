@@ -60,6 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
+      await new Promise((resolve) => setTimeout(resolve, 8000));
       dispatch({ type: "LOADING" });
       const data = await registerUser(userData);
       // console.log("register response: ", data);
