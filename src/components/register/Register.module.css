@@ -1,0 +1,248 @@
+.registercontainer {
+  max-width: 375px;
+  margin: 1rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.registertitle {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.registerform {
+  display: flex;
+  flex-direction: column;
+  font-family: "Open Sans", sans-serif;
+}
+
+.formgroup {
+  margin-bottom: 1.5rem;
+}
+
+.formgroup label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.formgroup input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.formgroup input:focus {
+  border-color: #6947bf;
+}
+
+.registerbutton {
+  padding: 0.75rem;
+  background-color: #6947bf;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buttonWrapper {
+  font-family: "Roboto", sans-serif;
+  font-size: 21px;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  color: white;
+  width: 100%;
+  height: 50px;
+  position: relative;
+  margin-top: 2rem;
+}
+
+.submit,
+.loader,
+.loaderWrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.submit {
+  z-index: 2;
+  width: 310px;
+  height: 50px;
+  background: linear-gradient(to right, #6947bf 0%, #5635a1 100%);
+  display: block;
+  border-radius: 200px;
+  text-align: center;
+  color: rgba(255, 255, 255, 1);
+  text-decoration: none;
+  line-height: normal;
+  transition: all 0.7s ease, line-height 0s ease, color 0.4s ease,
+    filter 0.2s ease;
+}
+
+.buttonWrapper.checked .submit:before {
+  top: 0px;
+  opacity: 0;
+}
+
+.buttonWrapper.checked .submit:after {
+  animation: submit-after-anim 0.5s 4.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.buttonWrapper.checked .loader {
+  opacity: 1;
+}
+
+.buttonWrapper.checked .loaderWrapper {
+  animation: wrapper-loader-anim 4.2s linear;
+  width: 50px;
+  height: 50px;
+  transform: scale(0);
+}
+
+.buttonWrapper.checked .submit {
+  width: 50px;
+  color: rgba(255, 255, 255, 0);
+  background: linear-gradient(to right, #6947bf 0%, #5635a1 100%);
+  animation: submit-anim 4s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+.checkWrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  z-index: -1;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkWrapper svg {
+  width: 25px;
+  height: 25px;
+}
+
+.check {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  z-index: -1;
+}
+
+.buttonWrapper.checked .checkWrapper {
+  z-index: 3;
+}
+
+.buttonWrapper.checked .check {
+  animation: check 4s 4.4s ease forwards;
+}
+
+@keyframes loader-anim-pink {
+  0% {
+    transform: scale(0.2) rotate(0deg) translate(220px, 0px);
+  }
+  100% {
+    transform: scale(0.2) rotate(1100deg) translate(300px, 0px);
+  }
+}
+
+@keyframes loader-anim-yellow {
+  0% {
+    transform: scale(0.2) rotate(0deg) translate(300px, 0px);
+  }
+  100% {
+    transform: scale(0.2) rotate(1100deg) translate(220px, 0px);
+  }
+}
+
+@keyframes loader-anim-orange {
+  0%,
+  70% {
+    transform: scale(0.2) rotate(30deg) translate(0px);
+  }
+  85% {
+    transform: scale(0.2) rotate(30deg) translate(-300px);
+  }
+  100% {
+    transform: scale(0.2) rotate(30deg) translate(0px);
+  }
+}
+
+@keyframes wrapper-loader-anim {
+  0% {
+    transform: scale(0) translateY(0px);
+  }
+  10% {
+    transform: scale(1) translateY(20px);
+  }
+  50% {
+    transform: scale(1.2) translateY(10px);
+  }
+  90% {
+    transform: scale(1) translateY(-10px);
+  }
+  100% {
+    transform: scale(0) translateY(0px);
+  }
+}
+
+@keyframes submit-after-anim {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes submit-anim {
+  0% {
+    transform: scale(1);
+  }
+  5%,
+  95% {
+    transform: scale(0.7);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes check {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}

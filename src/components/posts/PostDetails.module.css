@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap");
+
+.postDetail {
+  max-width: 80%;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.postTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.postImage {
+  width: 100%;
+  height: 600px;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.postAuthor {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  font-family: Alegreya Sans;
+}
+
+.postContent {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 2rem;
+}
+
+.commentsSection {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.commentsSection h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.commentsSection ul {
+  list-style: none;
+  padding: 0;
+}
+
+.commentsSection li {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.commentsSection p {
+  margin: 0;
+  padding-bottom: 0.5rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.postDetail button {
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+}
+
+.postDetail button:hover {
+  background-color: #0056b3;
+}
+
+.postDetail button:disabled {
+  background-color: #c0c0c0;
+  cursor: not-allowed;
+}
+
+.postDetail button + button {
+  margin-left: 0;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.editForm textarea {
+  margin-bottom: 0.5rem;
+}
+
+.editForm button {
+  margin-right: 0.5rem;
+}
+
+.editForm .cancelButton {
+  background-color: #6c757d;
+}
+
+.editForm .cancelButton:hover {
+  background-color: #5a6268;
+}
+
