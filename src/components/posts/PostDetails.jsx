@@ -38,7 +38,7 @@ const PostDetail = () => {
     };
 
     getPostData();
-  }, [id]);
+  }, [id, comments]);
 
   // console.log(post);
 
@@ -114,7 +114,7 @@ const PostDetail = () => {
                   <p>{comment.content}</p>
                   {/* {console.log("Comment Author: ", comment.user.username)}
                   {console.log("Current User: ", user.username)} */}
-                  {user && comment.user.username === user.userName && (
+                  {user && comment.user.username === user.username && (
                     <>
                       <button
                         onClick={() => {

@@ -11,16 +11,18 @@ const Navbar = ({ scrolled }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
+
+
   return (
     <div
       className={`${styles.container} ${scrolled ? styles.containerup : ""}`}
     >
       <div className={styles.logoContainer}>
-        <img src="/logo.svg" alt="logo" />
+        <img src="/logo.svg" alt="logo" onClick={() => window.location.href = "/"}  />
       </div>
       {user ? (
         <div className={styles.menus2}>
-          <span id={styles.username}>{user.userName}</span>
+          <span id={styles.username}>{user.username}</span>
           <img src="/logout.svg" alt="logout" onClick={logout} />
         </div>
       ) : (

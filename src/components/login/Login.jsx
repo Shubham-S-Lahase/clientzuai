@@ -33,7 +33,7 @@ const LoginForm = ({ closeModal }) => {
             type="email"
             id="email"
             name="email"
-            placeholder="Enter your username or email"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
