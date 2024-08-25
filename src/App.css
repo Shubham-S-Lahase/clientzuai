@@ -95,12 +95,18 @@ p {
   animation-play-state: paused;
 }
 
+.loadercont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vh;
+  height: 100vh;
+}
+
 .loader {
   --d: 22px;
   width: 20px;
   height: 20px;
-  margin: auto;
-  margin-top: 40vh;
   border-radius: 50%;
   color: #25b09b;
   box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0,
