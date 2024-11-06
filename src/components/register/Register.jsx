@@ -9,30 +9,59 @@ const RegisterForm = ({ closeModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [errors, setErrors] = useState({});
   const { register } = useAuth();
+
+  const validateInputs = () => {
+    const errors = {};
+
+    if (!username) errors.username = "Username is required";
+    if (!email) errors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(email))
+      errors.email = "Please enter a valid email";
+
+    if (!password) errors.password = "Password is required";
+    else if (password.length < 6)
+      errors.password = "Password must be at least 6 characters";
+
+    if (password !== confirmPassword)
+      errors.confirmPassword = "Passwords do not match";
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+    if (!validateInputs()) return;
 
     setIsChecked(true);
 
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("confirmPassword", confirmPassword);
+    if (profilePicture) {
+      formData.append("profilePicture", profilePicture);
+    }
+
     try {
-      const success = await register({ username, email, password });
+      const success = await register(formData);
       if (success) {
-          setUserName("");
-          setEmail("");
-          setPassword("");
-          setConfirmPassword("");
-          setIsChecked(false);
-          toast.success("Registration successful!")
-          closeModal();
+        setUserName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setProfilePicture(null);
+        setIsChecked(false);
+        toast.success("Registration successful!");
+        closeModal();
       }
     } catch (error) {
+      setErrors({ form: "Registration failed. Please try again." });
       console.error("Registration failed:", error);
     }
   };
@@ -41,6 +70,7 @@ const RegisterForm = ({ closeModal }) => {
     <div className={styles.registercontainer}>
       <h2 className={styles.registertitle}>Create an Account</h2>
       <form className={styles.registerform} onSubmit={handleSubmit}>
+        {errors.form && <p className={styles.error}>{errors.form}</p>}
         <div className={styles.formgroup}>
           <label htmlFor="username">Username</label>
           <input
@@ -51,6 +81,7 @@ const RegisterForm = ({ closeModal }) => {
             value={username}
             onChange={(e) => setUserName(e.target.value)}
           />
+          {errors.username && <p className={styles.error}>{errors.username}</p>}
         </div>
 
         <div className={styles.formgroup}>
@@ -62,6 +93,17 @@ const RegisterForm = ({ closeModal }) => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          {errors.email && <p className={styles.error}>{errors.email}</p>}
+        </div>
+
+        <div className={styles.formgroup}>
+          <label htmlFor="profilePicture">Profile Picture</label>
+          <input
+            type="file"
+            id="profilePicture"
+            name="profilePicture"
+            onChange={(e) => setProfilePicture(e.target.files[0])}
           />
         </div>
 
@@ -75,6 +117,7 @@ const RegisterForm = ({ closeModal }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {errors.password && <p className={styles.error}>{errors.password}</p>}
         </div>
 
         <div className={styles.formgroup}>
@@ -87,6 +130,9 @@ const RegisterForm = ({ closeModal }) => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          {errors.confirmPassword && (
+            <p className={styles.error}>{errors.confirmPassword}</p>
+          )}
         </div>
 
         <div

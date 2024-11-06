@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://serverzuai.onrender.com/api/",
+  // baseURL: "https://serverzuai.onrender.com/api/",
+  baseURL: "http://localhost:5000/api/",
 });
 
 API.interceptors.request.use(
@@ -116,6 +117,51 @@ export const deleteComment = async (commentId) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error("Failed to delete comment, please try again later.");
+    }
+  }
+};
+
+
+export const sendOtpToEmail = async (email) => {
+  try {
+    const response = await API.post("/user/sendOtpToEmail", { email });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to send OTP, please try again later.");
+    }
+  }
+};
+
+
+export const verifyOtpAndChangePassword = async (email, otp, newPassword) => {
+  try {
+    const response = await API.post("/user/verifyOtpAndChangePassword", { email, otp, newPassword });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to change password, please try again later.");
+    }
+  }
+};
+
+export const updateProfilePicture = async (formData) => {
+  try {
+    const response = await API.post("/user/updateProfilePicture", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to update profile picture, please try again later.");
     }
   }
 };

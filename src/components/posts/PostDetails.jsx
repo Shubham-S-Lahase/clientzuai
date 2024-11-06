@@ -38,7 +38,7 @@ const PostDetail = () => {
     };
 
     getPostData();
-  }, [id, comments]);
+  }, [id]);
 
   // console.log(post);
 

@@ -13,7 +13,7 @@ const PostList = () => {
 
   useEffect(() => {
     refreshPosts();
-  }, [posts, refreshPosts]);
+  }, []);
   // console.log(posts);
 
   const handlePostClick = (postId) => {

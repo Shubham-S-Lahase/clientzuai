@@ -13,7 +13,6 @@ const initialState = {
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      return { ...state, user: action.payload, error: null, loading: false };
     case "REGISTER_SUCCESS":
       return { ...state, user: action.payload, error: null, loading: false };
     case "LOGOUT":
@@ -33,44 +32,44 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          dispatch({ type: "LOADING" });
-          const user = await fetchUserData(token);
-          dispatch({ type: "LOGIN_SUCCESS", payload: user });
-          console.log(user);
-        } catch (err) {
-          if (err.response?.status === 401) {
-            localStorage.removeItem("token");
-            dispatch({ type: "LOGOUT" });
-          } else {
-            dispatch({ type: "AUTH_ERROR", payload: err.message });
-          }
+  const verifyToken = async () => {
+    console.log("Verifying token...");
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const user = await fetchUserData(token);
+        dispatch({ type: "LOGIN_SUCCESS", payload: user });
+        console.log("User verified:", user);
+      } catch (err) {
+        console.error("Token verification error:", err);
+        if (err.response?.status === 401) {
+          localStorage.removeItem("token");
+          dispatch({ type: "LOGOUT" });
+        } else {
+          dispatch({ type: "AUTH_ERROR", payload: err.message });
         }
-      } else {
-        dispatch({ type: "LOADING_COMPLETE" });
       }
-    };
+    } else {
+      console.log("No token found, completing loading.");
+      dispatch({ type: "LOADING_COMPLETE" });
+    }
+  };
 
+  useEffect(() => {
     verifyToken();
   }, []);
 
   const register = async (userData) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 8000));
       dispatch({ type: "LOADING" });
       const data = await registerUser(userData);
-      // console.log("register response: ", data);
-      dispatch({ type: "REGISTER_SUCCESS", payload: data});
+      dispatch({ type: "REGISTER_SUCCESS", payload: data });
       localStorage.setItem("token", data.token);
+      await verifyToken();
       navigate("/");
-      return true;
     } catch (err) {
-      dispatch({ type: "AUTH_ERROR", payload: err.response.data.message });
-      return false;
+      dispatch({ type: "AUTH_ERROR", payload: err.response?.data?.message || "Registration failed" });
+      dispatch({ type: "LOADING_COMPLETE" });
     }
   };
 
@@ -78,24 +77,22 @@ export const AuthProvider = ({ children }) => {
     try {
       dispatch({ type: "LOADING" });
       const data = await loginUser(credentials);
-      console.log(data);
       dispatch({ type: "LOGIN_SUCCESS", payload: data });
       localStorage.setItem("token", data.token);
+      await verifyToken();
       navigate("/");
-
-      dispatch({ type: "LOGIN_SUCCESS", payload: data });
     } catch (err) {
-      dispatch({ type: "AUTH_ERROR", payload: err.response.data.message });
+      dispatch({ type: "AUTH_ERROR", payload: err.response?.data?.message || "Login failed. Please try again." });
+      dispatch({ type: "LOADING_COMPLETE" });
     }
   };
 
   const logout = () => {
-    dispatch({ type: "LOGOUT" });
+    dispatch({ type: "LOADING" });
     localStorage.removeItem("token");
+    dispatch({ type: "LOGOUT" });
     navigate("/");
   };
-
-  // console.log(state);
 
   const value = {
     ...state,
@@ -107,7 +104,13 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {state.loading ? <div className="loadercont"><div className="loader"></div></div> : children}
+      {state.loading ? (
+        <div className="loadercont">
+          <div className="loader"></div>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

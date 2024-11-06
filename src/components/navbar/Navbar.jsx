@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import Modal from "../Modal/Modal";
 import RegisterForm from "../register/Register";
@@ -11,7 +12,13 @@ const Navbar = ({ scrolled }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
+  const navigate = useNavigate();
 
+  const handleProfileClick = () => {
+    if (user) {
+      navigate("/profile");
+    }
+  };
 
   return (
     <div
@@ -22,6 +29,12 @@ const Navbar = ({ scrolled }) => {
       </div>
       {user ? (
         <div className={styles.menus2}>
+          <img
+            src={user.profilePicture || "/default.jpg"}
+            alt="profile"
+            className={styles.profilePic}
+            onClick={handleProfileClick}
+          />
           <span id={styles.username}>{user.username}</span>
           <img src="/logout.svg" alt="logout" onClick={logout} />
         </div>

@@ -4,17 +4,18 @@ import Navbar from "./components/navbar/Navbar.jsx";
 import PostList from "./components/posts/PostList.jsx";
 import PostDetail from "./components/posts/PostDetails.jsx";
 import "./App.css";
-import { AuthProvider, useAuth } from "./hooks/useAuth.js"; // Import useAuth
+import { AuthProvider, useAuth } from "./hooks/useAuth.js"; 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NewPostForm from "./components/newpost/NewPost.jsx";
 import Modal from "./components/Modal/Modal.jsx";
 import ProtectedRoute from "./components/protectedRoutes/ProtectedRoute.js";
+import ProfilePage from "./components/profile/ProfilePage.jsx";
 
-function AppContent() {  // Separate component for App content
+function AppContent() {  
   const [scrolled, setScrolled] = useState(false);
   const [isNewPostForm, setIsNewPostForm] = useState(false);
-  const { isAuthenticated } = useAuth(); // Get authentication status
+  const { isAuthenticated } = useAuth(); 
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,6 +47,10 @@ function AppContent() {  // Separate component for App content
         <Routes>
           <Route path="/" element={<PostList />} />
           <Route path="/post/:id" element={<ProtectedRoute element={<PostDetail />} />} />
+          <Route 
+            path="/profile" 
+            element={<ProtectedRoute element={<ProfilePage />} />}
+          />
         </Routes>
 
         <Modal
