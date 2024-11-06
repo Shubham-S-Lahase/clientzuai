@@ -89,3 +89,15 @@
   height: 50px;
   border-radius: 50%;
 }
+
+.themeToggleBtn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+#username{
+  color: #313133;
+}
