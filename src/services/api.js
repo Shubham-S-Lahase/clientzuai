@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  // baseURL: "https://serverzuai.onrender.com/api/",
-  baseURL: "http://localhost:5000/api/",
+  baseURL: "https://serverzuai.onrender.com/api/",
+  // baseURL: "http://localhost:5000/api/",
 });
 
 API.interceptors.request.use(
@@ -162,6 +162,67 @@ export const updateProfilePicture = async (formData) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error("Failed to update profile picture, please try again later.");
+    }
+  }
+};
+
+export const fetchFollowers = async (userId) => {
+  try {
+    const response = await API.get(`/user/followers/${userId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to fetch followers, please try again later.");
+    }
+  }
+};
+
+export const fetchFollowing = async (userId) => {
+  try {
+    const response = await API.get(`/user/following/${userId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to fetch following, please try again later.");
+    }
+  }
+};
+
+export const fetchSuggestedUsers = async () => {
+  try {
+    const response = await API.get("/user/suggestions");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch suggested users");
+  }
+};
+
+export const followUser = async (userId) => {
+  try {
+    const response = await API.post(`/user/follow/${userId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to follow the user.");
+    }
+  }
+};
+
+export const unfollowUser = async (userId) => {
+  try {
+    const response = await API.post(`/user/unfollow/${userId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("Failed to unfollow the user.");
     }
   }
 };

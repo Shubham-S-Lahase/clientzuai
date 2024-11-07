@@ -7,6 +7,8 @@ import {
   sendOtpToEmail,
   verifyOtpAndChangePassword,
   updateProfilePicture,
+  fetchFollowers,
+  fetchFollowing,
 } from "../../services/api";
 
 const ProfilePage = () => {
@@ -17,6 +19,8 @@ const ProfilePage = () => {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
   const [resendCooldown, setResendCooldown] = useState(0);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
   const navigate = useNavigate();
 
@@ -33,6 +37,25 @@ const ProfilePage = () => {
     }
     return () => clearTimeout(timer);
   }, [resendCooldown]);
+
+  useEffect(() => {
+    const fetchFollowersAndFollowing = async () => {
+      try {
+        const followersData = await fetchFollowers(user._id);
+        setFollowers(followersData);
+
+        const followingData = await fetchFollowing(user._id);
+        setFollowing(followingData);
+      } catch (error) {
+        toast.error("Failed to load followers/following data.");
+        console.error(error);
+      }
+    };
+
+    if (user) {
+      fetchFollowersAndFollowing();
+    }
+  }, [user]);
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
@@ -74,7 +97,7 @@ const ProfilePage = () => {
       const data = await sendOtpToEmail(user.email);
       toast.success(data.message);
       setIsOtpSent(true);
-      setResendCooldown(30); // 30 seconds cooldown
+      setResendCooldown(30); 
     } catch (error) {
       toast.error(error.message || "An error occurred while sending OTP.");
       console.error(error);
@@ -100,6 +123,40 @@ const ProfilePage = () => {
         />
         <h3>{user.username}</h3>
         <p>{user.email}</p>
+      </div>
+
+      <div className={styles.followersFollowing}>
+        <div>
+          <h4>Followers ({followers.length})</h4>
+          <ul>
+            {followers.map((follower) => (
+              <li key={follower._id}>
+                <img
+                  src={follower.profilePicture || "/default.jpg"}
+                  alt={follower.username}
+                  className={styles.followerProfilePic}
+                />
+                {follower.username}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4>Following ({following.length})</h4>
+          <ul>
+            {following.map((followed) => (
+              <li key={followed._id}>
+                <img
+                  src={followed.profilePicture || "/default.jpg"}
+                  alt={followed.username}
+                  className={styles.followerProfilePic}
+                />
+                {followed.username}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div className={styles.changeProfilePicture}>
